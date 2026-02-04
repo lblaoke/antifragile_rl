@@ -1,0 +1,15 @@
+**/checkpoints/
+**/data/
+**/logs/
+**/wandb/
+**/outputs/
+**/__pycache__/
+
+**/*.err
+**/*.out
+**/*.log
+**/*.pt
+**/*.parquet
+**/*.safetensors
+
+**/test.py
