@@ -113,8 +113,8 @@ algorithm:
     # Power used for weight scaling in "pow" method
     weight_pow: 2.0
 
-  # Entropy recover settings
-  entropy_recover:
+  # Entropy control settings
+  entropy_control:
 
     # Frequency parameter for switching between GRPO and NSR
     frequency: 100000
@@ -122,10 +122,10 @@ algorithm:
     # Fixed entropy coefficient (set to null to disable, or a float value like 0.1)
     fixed_entropy: 0.0
 
-    # Lower bound for entropy recovery
+    # Lower bound for entropy control
     entropy_lower_bound: 0.0
 
-    # Upper bound for entropy recovery
+    # Upper bound for entropy control
     entropy_upper_bound: 1.0
 
 # config for the trainer

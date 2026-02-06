@@ -72,7 +72,7 @@ class AlgoConfig(BaseConfig):
         kl_ctrl (KLControlConfig): KL control configuration.
         use_pf_ppo (bool): Whether to enable preference feedback PPO.
         pf_ppo (dict[str, Any]): Preference feedback PPO settings.
-        entropy_recover (dict[str, Any]): Entropy recover settings (e.g., frequency parameter).
+        entropy_control (dict[str, Any]): Entropy control settings (e.g., frequency parameter).
         filter_groups (Optional[FilterGroupsConfig]): Filter groups configuration, used in DAPO and Entropy
     """
 
@@ -85,5 +85,5 @@ class AlgoConfig(BaseConfig):
     kl_ctrl: KLControlConfig = field(default_factory=KLControlConfig)
     use_pf_ppo: bool = False
     pf_ppo: dict[str, Any] = field(default_factory=dict)
-    entropy_recover: dict[str, Any] = field(default_factory=dict)
+    entropy_control: dict[str, Any] = field(default_factory=dict)
     filter_groups: Optional[FilterGroupsConfig] = None

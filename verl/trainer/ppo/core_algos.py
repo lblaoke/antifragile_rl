@@ -99,8 +99,7 @@ class AdvantageEstimator(str, Enum):
     RAFT_PLUS_PLUS = "raftpp"
     NSR = "nsr"
     GRPO_NSR = "grpo_nsr"
-    GRPO_NSR_FIX = "grpo_nsr_fix"
-    GRPO_NSR_RANGE = "grpo_nsr_range"
+    GRPO_RANGE = "grpo_range"
     RAFTPP_NSR = "raftpp_nsr"
     REINFORCE_PLUS_PLUS = "reinforce_plus_plus"
     REINFORCE_PLUS_PLUS_BASELINE = "reinforce_plus_plus_baseline"
@@ -416,42 +415,8 @@ def compute_grpo_nsr_outcome_advantage(
 
     return advantages, scores
 
-@register_adv_est(AdvantageEstimator.GRPO_NSR_FIX)
-def compute_grpo_nsr_fix_outcome_advantage(
-    token_level_rewards: torch.Tensor,
-    response_mask: torch.Tensor,
-    step: int,
-    current_entropy: float,
-    fixed_entropy: float,
-    index: np.ndarray,
-    epsilon: float = 1e-6,
-    norm_adv_by_std_in_grpo: bool = True,
-    config: Optional[AlgoConfig] = None,
-) -> tuple[torch.Tensor, torch.Tensor]:
-    """
-    Compute advantage for GRPO-NSR-FIX, operating only on Outcome reward
-    (with only one scalar reward for each response).
-    """
-    
-    if current_entropy >= fixed_entropy:
-        advantages, scores = compute_grpo_outcome_advantage(
-            token_level_rewards,
-            response_mask,
-            index,
-            epsilon,
-            norm_adv_by_std_in_grpo,
-            config
-        )
-    else:
-        advantages, scores = compute_nsr_outcome_advantage(
-            token_level_rewards,
-            response_mask,
-        )
-
-    return advantages, scores
-
-@register_adv_est(AdvantageEstimator.GRPO_NSR_RANGE)
-def compute_grpo_nsr_range_outcome_advantage(
+@register_adv_est(AdvantageEstimator.GRPO_RANGE)
+def compute_grpo_range_outcome_advantage(
     token_level_rewards: torch.Tensor,
     response_mask: torch.Tensor,
     step: int,
@@ -464,7 +429,7 @@ def compute_grpo_nsr_range_outcome_advantage(
     config: Optional[AlgoConfig] = None,
 ) -> tuple[torch.Tensor, torch.Tensor]:
     """
-    Compute advantage for GRPO-NSR-RANGE, operating only on Outcome reward
+    Compute advantage for GRPO-RANGE, operating only on Outcome reward
     (with only one scalar reward for each response).
     """
     

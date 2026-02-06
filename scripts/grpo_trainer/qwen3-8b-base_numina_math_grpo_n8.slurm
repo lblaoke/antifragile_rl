@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=qwen3-4b-base_numina_math_grpo_nsr_fix0.2_n8
+#SBATCH --job-name=qwen3-8b-base_numina_math_grpo_n8
 #SBATCH --partition=ai
 #SBATCH --account=ruqiz
 #SBATCH --qos=preemptible
@@ -8,7 +8,7 @@
 #SBATCH --ntasks-per-node=8
 #SBATCH --gres=gpu:8
 #SBATCH --cpus-per-task=14
-#SBATCH --time=0-12:00:00
+#SBATCH --time=0-20:00:00
 #SBATCH --output=./logs/slurm-%j.out
 #SBATCH --error=./logs/slurm-%j.err
 #SBATCH --mail-type=ALL
@@ -29,12 +29,12 @@ eval_aime25=$data_root/aime25/test.parquet
 
 test_files="['$eval_math500', '$eval_amc23', '$eval_aime24', '$eval_aime25']"
 
-model_name="Qwen/Qwen3-4B-Base"
+model_name="Qwen/Qwen3-8B-Base"
 rollout_n=8
 batch_size_per_gpu=32
 
 project_name="antifragile_rl"
-experiment_name="qwen3-4b-base_numina_math_grpo_nsr_fix0.2_n8"
+experiment_name="qwen3-8b-base_numina_math_grpo_n8"
 
 # Auto-detect number of GPUs and nodes
 n_gpus_per_node=""
@@ -72,8 +72,7 @@ else
 fi
 
 python3 -m verl.trainer.main_ppo \
-    algorithm.adv_estimator=grpo_nsr_fix \
-    algorithm.entropy_control.fixed_entropy=0.2 \
+    algorithm.adv_estimator=grpo \
     data.train_files="$train_files" \
     data.val_files="$test_files" \
     data.train_batch_size=1024 \
@@ -105,7 +104,8 @@ python3 -m verl.trainer.main_ppo \
     actor_rollout_ref.rollout.n=$rollout_n \
     actor_rollout_ref.ref.log_prob_micro_batch_size_per_gpu=$batch_size_per_gpu \
     actor_rollout_ref.ref.fsdp_config.param_offload=True \
-    actor_rollout_ref.rollout.val_kwargs.n=4 \
+    actor_rollout_ref.rollout.val_kwargs.temperature=0.7 \
+    actor_rollout_ref.rollout.val_kwargs.n=32 \
     actor_rollout_ref.rollout.val_kwargs.do_sample=True \
     critic.model.enable_gradient_checkpointing=True \
     critic.model.enable_activation_offload=True \

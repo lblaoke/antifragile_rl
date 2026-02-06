@@ -258,7 +258,7 @@ def compute_advantage(
             token_level_rewards=data.batch['token_level_rewards'],
             response_mask=data.batch['response_mask'],
             step=global_steps,
-            frequency=config.entropy_recover.get("frequency", 100000),
+            frequency=config.entropy_control.get("frequency", 100000),
             index=data.non_tensor_batch['uid'])
         data.batch['advantages'] = advantages
         data.batch['returns'] = returns
@@ -268,7 +268,7 @@ def compute_advantage(
             response_mask=data.batch['response_mask'],
             step=global_steps,
             current_entropy=data.non_tensor_batch['current_entropy'][0],
-            fixed_entropy=config.entropy_recover.get("fixed_entropy", 0.0),
+            fixed_entropy=config.entropy_control.get("fixed_entropy", 0.0),
             index=data.non_tensor_batch['uid'])
         data.batch['advantages'] = advantages
         data.batch['returns'] = returns
@@ -278,8 +278,8 @@ def compute_advantage(
             response_mask=data.batch['response_mask'],
             step=global_steps,
             current_entropy=data.non_tensor_batch['current_entropy'][0],
-            entropy_lower_bound=config.entropy_recover.get("entropy_lower_bound", 0.0),
-            entropy_upper_bound=config.entropy_recover.get("entropy_upper_bound", 1.0),
+            entropy_lower_bound=config.entropy_control.get("entropy_lower_bound", 0.0),
+            entropy_upper_bound=config.entropy_control.get("entropy_upper_bound", 1.0),
             index=data.non_tensor_batch['uid'])
         data.batch['advantages'] = advantages
         data.batch['returns'] = returns
@@ -288,7 +288,7 @@ def compute_advantage(
             token_level_rewards=data.batch['token_level_rewards'],
             response_mask=data.batch['response_mask'],
             step=global_steps,
-            frequency=config.entropy_recover.get("frequency", 100000),
+            frequency=config.entropy_control.get("frequency", 100000),
             index=data.non_tensor_batch['uid'])
         data.batch['advantages'] = advantages
         data.batch['returns'] = returns
